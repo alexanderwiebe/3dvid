@@ -1,0 +1,9 @@
+function convertVideo {
+    local rname="${1%.*}"r."${1#*.}"
+    local cname="${1%.*}"c."${1#*.}"
+    # echo $rname
+    ffmpeg -i $1 -vf reverse $rname
+    ffmpeg -i $1 -i $rname -filter_complex "[0:v] [1:v] concat=n=2:v=1 [v]" -map "[v]" $cname
+    cp $cname /e/3d\ printer/gcloud
+    rm $rname $cname
+}
